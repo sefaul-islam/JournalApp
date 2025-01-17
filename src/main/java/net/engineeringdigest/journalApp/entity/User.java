@@ -1,21 +1,28 @@
 package net.engineeringdigest.journalApp.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.rmi.server.ObjID;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-@Document
+@Document(collection = "users")
 @Data
-    public class JournalEntry {
+    public class User {
     @Id
     private ObjectId id;
-    private String title;
-    private String content;
-    private LocalDateTime date;
+    @Indexed(unique = true)
+    @NonNull
+    private String userName;
+    @NonNull
+    private String passWord;
+    @DBRef
+    private List<JournalEntry> journalEntries = new ArrayList<>();
 }
 
